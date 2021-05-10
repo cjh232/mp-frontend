@@ -4,6 +4,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import LoginForm from './components/LoginForm'
+import Background from '../../assets/memphis.png';
+
 
 const Styles = styled.div`
 
@@ -19,10 +21,10 @@ const Styles = styled.div`
     }
 
     .divider {
-        border-left: 1px dashed grey;
-        height: 300px;
+        border-left: 1px solid grey;
+        height: 400px;
         left: 50%;
-        margin-left: 25px;
+        margin-left: 15px;
     }
 
     .vh {
@@ -32,27 +34,71 @@ const Styles = styled.div`
     .footer {
         background-color: grey;
     }
+
+    .login-container {
+        height: 100vh;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        background-color: #f5f5f5;
+        font-weight: 700;
+    }
+
+    .background {
+        background-image: url(${Background});
+        opacity: 1;
+    }
+
+
 `
 
 const Login = () => {
 
     return (
         <Styles>
-            <Container styles={{height: '100vh'}}>
-                <Row className="align-items-center justify-content-center vh">
-                    <Col lg={6} className="align-items-center text-center">
-                        <h2 className="display-4 login-text">Sign in to Mitzy's People</h2>
-                        <p className="fs-4">Sign in to see our collection of clothing, free to all you working women!</p>
-                    </Col>
-                    <Col>
-                        <div className="divider">
-                        </div>
-                    </Col>
-                    <Col lg={5}>
-                        <LoginForm />
-                    </Col>
-                </Row>
-            </Container>
+            <div className="background">
+                <Container className="login-container">
+                    <Row className="align-items-center justify-content-center vh">
+                        <Col lg={6} className="align-items-center text-center">
+                            <h2 className="display-2 login-text">Work it Girl!</h2>
+                            <p className="fs-4">Free clothing for working women!</p>
+                        </Col>
+                        <Col>
+                            <div className="divider">
+                            </div>
+                        </Col>
+                        <Col lg={5}>
+                            <LoginForm />
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+            <footer className="footer">
+                <Container>
+                    <Row className="align-items-center justify-content-center">
+                        <Col className="align-items-center text-center">
+                            <span className="text-muted">
+                                <a className="text-muted footer-nav" href="/">Just wanna see what's available?</a>
+                            </span>
+                        </Col>
+                        <Col className="align-items-center text-center">
+                            <span className="text-muted footer-nav">
+                               -- Mitzy's People --
+                            </span>
+                        </Col>
+                        <Col className="align-items-center text-center">
+                            <span className="text-muted footer-nav">
+                                ReactJS / Bootstrap / Django
+                            </span>
+                        </Col>
+                    </Row>
+                </Container>
+            </footer>
         </Styles>
     )
 

@@ -11,12 +11,15 @@ import * as yup from 'yup';
 const Styles = styled.div`
 
     input, button {
-        border-radius: 20px;
+        border-radius: 10px;
+        height: 45px;
     }
 
     .alert {
         z-index: 5;
-        margin-top: 1rem;
+        margin-top: 5rem;
+        right: 1rem;
+        width: 445px;
         position: absolute;
     }
 
@@ -27,11 +30,14 @@ const LoginForm = () => {
     const [errorShow, setErrorShow] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
+    const savedEmail = localStorage.getItem('email');
+    const autoFillEmail = (savedEmail ? savedEmail : '');
+
     const login = (jwt_pair) => {
         localStorage.setItem('jwt_token', JSON.stringify(jwt_pair))
     }
 
-    const renderErrorMsg = (responseData) => {
+    const formErrorMsg = (responseData) => {
         let msg = responseData.detail;
 
         switch(msg) {
@@ -48,19 +54,29 @@ const LoginForm = () => {
 
     const submitLogin = async (values) => {
 
+        const credentials = {
+            email: values.email,
+            password: values.password
+        }
+
         try {
             let res = await axios.post('http://localhost:8000/users/login', 
-                                        values, 
+                                        credentials, 
                                         {withCredentials: true});
             console.log(res.data)
+
             login({
                 token: res.data.access_token,
                 expiry: '2'
             }) 
 
+            if(values.remember) {
+                localStorage.setItem('email', values.email)
+            }
+
         } catch(error) {
             setErrorShow(true)
-            renderErrorMsg(error.response.data)
+            formErrorMsg(error.response.data)
             console.log(error.response)
         }    
     }
@@ -74,7 +90,7 @@ const LoginForm = () => {
     return (
         <Styles>
             <Formik
-                initialValues={{email: '', password: ''}}
+                initialValues={{email: autoFillEmail, password: '', remember: false}}
                 onSubmit={(values) => submitLogin(values)}
                 validationSchema={schema}
                 validateOnBlur={false}
@@ -90,9 +106,8 @@ const LoginForm = () => {
                 errors,
                 isSubmitting
             }) => (
-                <Form noValidate onSubmit={handleSubmit}>
+                <Form noValidate onSubmit={handleSubmit} className="p-4 p-md-5 border rounded bg-light">
                     <Form.Group controlId="validationFormEmail">
-                        <Form.Label>Email address:</Form.Label>
                         <InputGroup hasValidation>
                             <Form.Control 
                                 type="email" 
@@ -109,7 +124,6 @@ const LoginForm = () => {
                     </Form.Group>
 
                     <Form.Group controlId="validationFormPassword">
-                        <Form.Label>Password</Form.Label>
                         <InputGroup hasValidation>
                             <Form.Control 
                                 type="password" 
@@ -127,14 +141,29 @@ const LoginForm = () => {
                         </InputGroup>
                     </Form.Group>
 
+                    <Form.Group>
+                        <Form.Check 
+                            custom
+                            type="switch"
+                            name="remember"
+                            onChange={handleChange}
+                            id={`custom-checkbox`}
+                            label={`Remember me?`}
+                        />
+                    </Form.Group>
 
-                    <Button 
+                    <Form.Group>
+                        <Button 
                         variant="primary" 
                         type="submit" 
                         block 
                         disabled={isSubmitting}>Log In</Button>
-                    <Button variant="secondary" type="submit" block>Sign Up</Button>
-                    {errorShow && <FailedLoginAlert setErrorShow={setErrorShow} msg={errorMsg} className="alert"/>}
+                        <Button variant="secondary" type="" block>Sign Up</Button>
+                        {errorShow && <FailedLoginAlert 
+                                        setErrorShow={setErrorShow} 
+                                        msg={errorMsg} className="alert"/>}
+                    </Form.Group>
+                       
                 </Form>
             )}
             
