@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -27,6 +28,7 @@ const Styles = styled.div`
 
 const LoginForm = () => {
 
+    const history = useHistory();
     const [errorShow, setErrorShow] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
@@ -73,6 +75,8 @@ const LoginForm = () => {
             if(values.remember) {
                 localStorage.setItem('email', values.email)
             }
+
+            history.push('/home');
 
         } catch(error) {
             setErrorShow(true)

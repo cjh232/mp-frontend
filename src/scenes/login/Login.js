@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -43,8 +44,8 @@ const Styles = styled.div`
         position: absolute;
         bottom: 0;
         width: 100%;
-        height: 60px;
-        line-height: 60px;
+        height: 50px;
+        line-height: 50px;
         background-color: #f5f5f5;
         font-weight: 700;
     }
@@ -58,6 +59,14 @@ const Styles = styled.div`
 `
 
 const Login = () => {
+
+    const history = useHistory();
+
+    useEffect(() => {
+        if(localStorage.getItem('jwt_token')) {
+            history.push('/home');
+        }
+    }, [])
 
     return (
         <Styles>
@@ -83,7 +92,7 @@ const Login = () => {
                     <Row className="align-items-center justify-content-center">
                         <Col className="align-items-center text-center">
                             <span className="text-muted">
-                                <a className="text-muted footer-nav" href="/">Just wanna see what's available?</a>
+                                <a className="text-muted footer-nav" href="/home">Just wanna see what's available?</a>
                             </span>
                         </Col>
                         <Col className="align-items-center text-center">
