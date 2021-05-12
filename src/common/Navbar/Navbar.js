@@ -6,6 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl';
+import axios from 'axios';
 import { ReactComponent as ProfileLogo } from './assets/user.svg'
 
 const DropdownStyles = styled.div`
@@ -64,8 +65,8 @@ const CustomNavbar = () => {
     
     return (
         <NavbarStyles>
-            <Navbar fixed="top" expand="lg" className="custom-nav">
-                <Container>
+            <Navbar sticky="top" expand="lg" className="custom-nav">
+                <Container className="br1">
                     <Navbar.Brand href="#home">Work it Girl!</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -94,11 +95,28 @@ const SearchBar = (props) => {
 
     const [searchQuery, setSearchQuery] = useState('');
 
-    const peformSearchOperation = () => {
+    const peformSearchOperation = async () => {
+        
+        if(searchQuery === '') {
+            return;
+        }
+
         // Convert search params to a URL safe version
         const encodedParams = encodeURIComponent(searchQuery)
 
-        props.history.push(`/catalog/search/?q=${encodedParams}`)
+        try {
+            let res = await axios.get(`http://localhost:8000/products/search?q=${encodedParams}`)
+            let searchResults = res.data
+
+            props.history.push({
+                pathname: '/search',
+                search: `?q=${encodedParams}`,
+                state: {results: searchResults, query: searchQuery}
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
     return (
@@ -123,7 +141,6 @@ const AuthenticatedOptions = (props) => {
         localStorage.removeItem('jwt_token');
         props.history.push('/login');
     }
-
 
 
     return (
