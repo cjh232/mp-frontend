@@ -3,7 +3,7 @@ import {
   loginWatcherSaga,
   logoutWatcherSaga,
   // import other watchers from this file
-} from './sessionSaga';
+} from './authSaga';
 
 import { searchWatcherSaga } from './searchSaga';
 

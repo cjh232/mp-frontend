@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { searchWatcher } from '../../../actionCreators/session';
-import { connect, useSelector } from 'react-redux';
+import { searchWatcher } from '../../../actionCreators/searchCreators';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { InputGroup, InputLeftElement, Input, Box } from '@chakra-ui/react';
-import { ImSearch } from 'react-icons/im';
+import { HiOutlineSearch } from 'react-icons/hi';
 
 const SearchStyles = styled.div`
 
     input {
-        border-radius: 3px;
+        border-radius: 6px;
         height: 44px;
         border: 1px solid #E2E8F0;
     }
@@ -47,16 +47,17 @@ function SearchBar (props) {
                         <InputLeftElement
                             pointerEvents="none"
                             color="gray.400"
-                            children={<ImSearch  />}
+                            children={<HiOutlineSearch  />}
                             mb="rem"
                         />
                         <Input 
                             variant="outline" 
-                            w="600px" 
+                            w="700px" 
                             placeholder="Search for something nice..."
-                            shadow="base"
+                            shadow="sm"
                             focusBorderColor="pink.300"
                             color="gray.500"
+                            fontSize="14px"
                             onChange={(event) => onInputChange(event)}/>
                     </InputGroup>
                 </form>

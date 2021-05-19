@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux'
 import SearchReducer from './searchReducer';
-import authState from './authState';
-import LoginError from './loginError';
+import {AuthReducers} from './authReducers';
 
 
-const rootReducer = combineReducers({authState, LoginError, SearchReducer})
+const rootReducer = combineReducers({AuthReducers, SearchReducer})
 
 export default rootReducer;

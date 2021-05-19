@@ -15,12 +15,7 @@ export default function Logo () {
     return (
         <StyledLogo>
             <HStack spacing=".5rem">
-                <Heading 
-                color="gray.900" 
-                as="h1" 
-                fontFamily="Paytone One" 
-                size="md" 
-                fontSize="23px">Work it Girl!</Heading>
+                <Text>Logo</Text>
             </HStack>
         </StyledLogo>
     )

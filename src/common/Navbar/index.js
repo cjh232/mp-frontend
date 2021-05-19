@@ -19,7 +19,15 @@ export default function Navbar () {
 
     return (
         <NavBarStyles>
-            <Flex bg="#fafbfb" as="nav" align="center" justify="center" className="nav" w="100%" h="72px" shadow="sm">
+            <Flex 
+                bg="#fafbfb" 
+                as="nav" 
+                align="center" 
+                justify="center" 
+                className="nav" 
+                w="100%" 
+                h="72px" 
+                shadow="base">
                 <NavBarContainer justify="space-between" w="1440px" align="center">
                     <Logo />
                     <SearchBar />

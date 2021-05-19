@@ -22,7 +22,7 @@ import { ErrorMessage } from "@hookform/error-message";
 /** Redux */
 import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loginWatcher } from '../../../actionCreators/session';
+import { loginWatcher } from '../../../actionCreators/authCreators';
 
 import { BsBoxArrowInRight } from 'react-icons/bs'
 import styled from 'styled-components';
@@ -52,7 +52,8 @@ const StyledLogin = styled.div`
 function LoginForm(props) {
 
     const [showPassword, setShowPassword] = useBoolean(false)
-    const authState = useSelector(state => state.authState)
+    const authState = useSelector(state => state.AuthReducers.AuthState)
+    const storedEmail = useSelector(state => state.AuthReducers.StoredEmail)
     const history = useHistory();
     const toast = useToast();
 
@@ -85,6 +86,7 @@ function LoginForm(props) {
         reValidateMode: 'onBlur',
         resolver: yupResolver(schema),
         defaultValues: {
+            email: storedEmail,
             rememberUser: false
           }
     })
@@ -97,6 +99,7 @@ function LoginForm(props) {
         props.loginWatcher({
             email: values.email,
             password: values.password,
+            rememberUser: values.rememberUser,
             history: history
         });
 

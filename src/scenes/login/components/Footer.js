@@ -61,7 +61,7 @@ export default function Footer() {
                         </Flex>
                     </Stack>
                 </Center>
-                <Center h="3rem"><Link>Want to see what's available?</Link></Center>
+                <Center h="3rem"><Link href="/home">Want to see what's available?</Link></Center>
             </Stack>
  
             </Stack>

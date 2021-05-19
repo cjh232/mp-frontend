@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { loadSearchResults } from '../actionCreators/session';
+import { loadSearchResults } from '../actionCreators/searchCreators';
 
 
 function searchApi(query) {

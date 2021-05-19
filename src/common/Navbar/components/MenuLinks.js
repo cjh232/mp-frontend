@@ -12,17 +12,29 @@ import { HStack,
         MenuDivider,
         MenuItem,
         MenuGroup, 
-        Box
+        Text,
+        Flex
       } from '@chakra-ui/react';
-import { HiHome, HiShoppingBag, HiNewspaper, HiLogin, HiPlus } from 'react-icons/hi';
+import { 
+    HiOutlineHome, 
+    HiOutlineShoppingBag,
+     HiOutlineNewspaper, 
+     HiOutlineLogin, 
+     HiUserAdd, 
+     HiMenu,
+     HiOutlineMailOpen,
+     HiOutlineUserCircle,
+     HiOutlineShoppingCart,
+     HiOutlineLogout
+     } from 'react-icons/hi';
 import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logoutWatcher } from '../../../actionCreators/session';
+import { logoutWatcher } from '../../../actionCreators/authCreators';
 
 
 function MenuLinks(props) {
 
-    const authState = useSelector(state => state.authState)
+    const authState = useSelector(state => state.AuthReducers.AuthState)
     const history = useHistory()
 
     const logout = () => {
@@ -32,14 +44,14 @@ function MenuLinks(props) {
 
     const renderAuthOptions = () => {
         if (authState.isLogged) {
-            return (<AccountMenu onLogout={logout}/>)
+            return (<AccountMenu onLogout={logout} firstName={authState.name} />)
         } else {
             return (
                 <React.Fragment>
                     <Tooltip label="Sign Up" aria-label="Sign Up">
                         <Link 
                             _hover={{ color: "pink.400" }} 
-                            color="#a0aec0"><Icon as={HiPlus} w={7} h={7}/></Link>
+                            color="#a0aec0"><Icon as={HiUserAdd} w={6} h={6}/></Link>
                     </Tooltip>
 
                     <Tooltip label="Log In" aria-label="Log In">
@@ -47,7 +59,7 @@ function MenuLinks(props) {
                             _hover={{ color: "pink.400" }} 
                             color="#a0aec0"
                             href="/login"
-                            ><Icon as={HiLogin} w={6} h={6}/></Link>
+                            ><Icon as={HiOutlineLogin} w={5} h={5}/></Link>
                     </Tooltip>
                 </React.Fragment>
             )
@@ -56,18 +68,20 @@ function MenuLinks(props) {
 
 
     return (
-            <HStack spacing="1.25rem" h="20px">
-                <Tooltip label="Home" aria-label="Home">
-                    <Link _hover={{ color: "pink.400" }} color="#a0aec0"><Icon as={HiHome} w={5} h={6}/></Link>
-                </Tooltip>
+            <HStack spacing="1.2rem" h="20px">
 
-                <Tooltip label="Products" aria-label="Products">
-                    <Link _hover={{ color: "pink.400" }} color="#a0aec0"><Icon as={HiShoppingBag} w={5} h={6}/></Link>
-                </Tooltip>
+            <Tooltip label="Home" aria-label="Home">
+                <Link _hover={{ color: "pink.400" }} color="#a0aec0"><Icon as={HiOutlineHome} w={5} h={6}/></Link>
+            </Tooltip>
 
-                <Tooltip label="News" aria-label="News">
-                    <Link _hover={{ color: "pink.400" }} color="#a0aec0"><Icon as={HiNewspaper} w={5} h={6}/></Link>
-                </Tooltip>
+            <Tooltip label="Products" aria-label="Products">
+                <Link _hover={{ color: "pink.400" }} color="#a0aec0"><Icon as={HiOutlineShoppingBag} w={5} h={6}/></Link>
+            </Tooltip>
+
+            <Tooltip label="News" aria-label="News">
+                <Link _hover={{ color: "pink.400" }} color="#a0aec0"><Icon as={HiOutlineNewspaper} w={5} h={6}/></Link>
+            </Tooltip>
+
                 
                 <Divider orientation="vertical" colorScheme="gray" />
 
@@ -95,15 +109,29 @@ const AccountMenu = (props) => {
                 w="27px"
                 h="27px" 
                 transition="all 0.2s"
+                color="#a0aec0"
                 _hover={{cursor: 'pointer'}}
-                as={Avatar}></MenuButton>
+                ><HiMenu size="20px"/></MenuButton>
             <MenuList>
-            <MenuGroup   title="Hey, Christian!">
-                <MenuItem>Messages</MenuItem>
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Cart</MenuItem>
+            <MenuGroup   title={`Hey, ${props.firstName}!`}>
                 <MenuDivider />
-                <MenuItem onClick={() => props.onLogout()}>Log Out</MenuItem>
+                <MenuItem icon={<HiOutlineMailOpen size="18px"/>}>
+                    <Text fontSize="14px">Messages (3)</Text>
+                </MenuItem>
+
+                <MenuItem icon={<HiOutlineUserCircle size="18px"/>}>
+                    <Text fontSize="14px">Profile</Text>
+                </MenuItem>
+
+                <MenuItem icon={<HiOutlineShoppingCart size="18px"/>}>
+                    <Text fontSize="14px">Cart (2)</Text>
+                </MenuItem>
+
+                <MenuDivider />
+
+                <MenuItem icon={<HiOutlineLogout size="18px"/>} onClick={() => props.onLogout()}>
+                    <Text fontSize="14px">Log Out</Text>
+                </MenuItem>
             </MenuGroup>
             </MenuList>
         </Menu>
