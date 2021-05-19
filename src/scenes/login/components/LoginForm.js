@@ -1,196 +1,207 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup'
-import Alert from 'react-bootstrap/Alert';
-import styled from 'styled-components';
-import axios from 'axios';
-import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import {
+    Box,
+    Heading,
+    FormControl,
+    FormLabel,
+    Input,
+    Button,
+    useBoolean,
+    InputRightElement,
+    Switch ,
+    Link,
+    useToast,
+  } from '@chakra-ui/react';
+import PasswordShowButton from './PasswordShowButton';
 import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { ErrorMessage } from "@hookform/error-message";
 
-const Styles = styled.div`
+/** Redux */
+import { connect, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { loginWatcher } from '../../../actionCreators/session';
 
-    input, button {
-        border-radius: 10px;
-        height: 45px;
-    }
+import { BsBoxArrowInRight } from 'react-icons/bs'
+import styled from 'styled-components';
 
-    .alert {
-        z-index: 5;
-        margin-top: 5rem;
-        right: 1rem;
-        width: 445px;
-        position: absolute;
-    }
+const StyledLogin = styled.div`
 
+  input#password, input#email {
+      background-color:#f4f6f7;
+  }
+
+  input {
+      border: 1px solid #b9c1ca;
+      font-size: 16px;
+      border-radius: 5px;
+  }
+
+  button {
+      border-radius: 2px;
+  }
+
+  .error-msg {
+      color: #bf1650;
+      font-size: 14px;
+  }
 `
 
-const LoginForm = () => {
+function LoginForm(props) {
 
+    const [showPassword, setShowPassword] = useBoolean(false)
+    const authState = useSelector(state => state.authState)
     const history = useHistory();
-    const [errorShow, setErrorShow] = useState(false);
-    const [errorMsg, setErrorMsg] = useState('');
+    const toast = useToast();
 
-    const savedEmail = localStorage.getItem('email');
-    const autoFillEmail = (savedEmail ? savedEmail : '');
-
-    const login = (jwt_pair) => {
-        localStorage.setItem('jwt_token', JSON.stringify(jwt_pair))
-    }
-
-    const formErrorMsg = (responseData) => {
-        let msg = responseData.detail;
-
-        switch(msg) {
-            case 'Locked Account':
-                setErrorMsg('Too many failed login attempts. Account is locked.');
-                break;
-            case 'Bad Credentials':
-                setErrorMsg("The email and password you entered didn't match our records.");
-                break;
-            default :
-                setErrorMsg("Something unkown went wrong");
-        }
-    }
-
-    const submitLogin = async (values) => {
-
-        const credentials = {
-            email: values.email,
-            password: values.password
-        }
-
-        try {
-            let res = await axios.post('http://localhost:8000/users/login', 
-                                        credentials, 
-                                        {withCredentials: true});
-            console.log(res.data)
-
-            login({
-                token: res.data.access_token,
-                expiry: '2'
-            }) 
-
-            if(values.remember) {
-                localStorage.setItem('email', values.email)
-            }
-
+    useEffect(() => {
+        if(authState.isLogged) {
             history.push('/home');
+        }
+    }, [])
 
-        } catch(error) {
-            setErrorShow(true)
-            formErrorMsg(error.response.data)
-            console.log(error.response)
-        }    
+    const CustomToast = () => {
+        
+        return toast({
+            title: 'Login Failure',
+            description: 'Incorrect email/password combination.',
+            status: "error",
+            duration: null,
+            position: "top",
+            isClosable: true,
+        })
     }
 
     const schema = yup.object().shape({
-        email: yup.string().email().required('*Email is required.'),
-        password: yup.string().required('*Password is required.'),
-      });
+        email: yup.string().email('Enter a valid email please.').required('Uh oh, you\'re missing your email...'),
+        password: yup.string().required('You\'re missing your password...'),
+        rememberUser: yup.boolean(),
+    })
 
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        mode: 'onBlur',
+        reValidateMode: 'onBlur',
+        resolver: yupResolver(schema),
+        defaultValues: {
+            rememberUser: false
+          }
+    })
 
-    return (
-        <Styles>
-            <Formik
-                initialValues={{email: autoFillEmail, password: '', remember: false}}
-                onSubmit={(values) => submitLogin(values)}
-                validationSchema={schema}
-                validateOnBlur={false}
-                validateOnChange={false}
-            >
-            {({
-                handleSubmit,
-                handleChange,
-                handleBlur,
-                values,
-                touched,
-                isValid,
-                errors,
-                isSubmitting
-            }) => (
-                <Form noValidate onSubmit={handleSubmit} className="p-4 p-md-5 border rounded bg-light">
-                    <Form.Group controlId="validationFormEmail">
-                        <InputGroup hasValidation>
-                            <Form.Control 
-                                type="email" 
-                                name="email"
-                                value={values.email}
-                                placeholder='Enter email'
-                                isValid={touched.email && !errors.email}
-                                isInvalid={!!errors.email}
-                                onChange={handleChange} />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.email}
-                            </Form.Control.Feedback>
-                        </InputGroup>
-                    </Form.Group>
+    const submitLogin = (values) => {
 
-                    <Form.Group controlId="validationFormPassword">
-                        <InputGroup hasValidation>
-                            <Form.Control 
-                                type="password" 
-                                placeholder="Password" 
-                                name="password"
-                                value={values.password}
-                                required 
-                                isInvalid={!!errors.password}
-                                isValid={touched.password && !errors.password}
-                                onChange={handleChange} />
+        console.log(values)
 
-                            <Form.Control.Feedback type="invalid">
-                            {errors.password}
-                            </Form.Control.Feedback>
-                        </InputGroup>
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Check 
-                            custom
-                            type="switch"
-                            name="remember"
-                            onChange={handleChange}
-                            id={`custom-checkbox`}
-                            label={`Remember me?`}
-                        />
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Button 
-                        variant="primary" 
-                        type="submit" 
-                        block 
-                        disabled={isSubmitting}>Log In</Button>
-                        <Button variant="secondary" type="" block>Sign Up</Button>
-                        {errorShow && <FailedLoginAlert 
-                                        setErrorShow={setErrorShow} 
-                                        msg={errorMsg} className="alert"/>}
-                    </Form.Group>
-                       
-                </Form>
-            )}
-            
-            </Formik>
-                
-        </Styles>
-    )
-
-}
-
-function FailedLoginAlert(props) {
         
+        props.loginWatcher({
+            email: values.email,
+            password: values.password,
+            history: history
+        });
+
+
+    }
+
     return (
-        <Alert variant="danger" onClose={() => props.setErrorShow(false)} dismissible>
-            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-            <p>
-            {props.msg}
-            </p>
-            <Alert.Link>Forgot your password?</Alert.Link>
-        </Alert>
-    );
+        <StyledLogin>
+            <Box 
+                borderRadius="5px"
+                minHeight="400px"
+                width="400px"
+                backgroundColor="#fafbfb"
+                padding="2rem"
+                color="gray.500"
+                border="2px"
+                borderColor="#dee2e6"
+                boxShadow="md"
+                >
+                <form onSubmit={handleSubmit(submitLogin)}>
 
+                    <Heading as="h4" size="md" mb="2rem">Welcome back!</Heading>
 
+                    <FormControl 
+                        id="email" 
+                        paddingBottom="2rem" 
+                        isRequired 
+                        mt="1rem"
+                        isInvalid={!!errors.email}
+                        errortext={errors.email ? errors.email.message : ''}
+                        >
+                            <Input 
+                                variant="outline"
+                                type="email"
+                                id="email"
+                                placeholder="Email address"
+                                size="lg"
+                                onChange={() => console.log(errors)}
+                                focusBorderColor="pink.300"
+                                {...register("email")}
+                            />
+                            <ErrorMessage errors={errors} className="error-msg" name="email" as="p" />
+                    </FormControl>
+
+                    <FormControl id="password" isRequired>
+
+                            <Input 
+                                variant="outline"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Password"
+                                name="password"
+                                size="lg"
+                                focusBorderColor="pink.300"
+                                isInvalid={errors.password}
+                                {...register("password")}
+                            />
+                            <InputRightElement width="4.5rem">
+                            <PasswordShowButton showPassword={showPassword} toggle={setShowPassword.toggle}/>
+                            </InputRightElement>
+                            <ErrorMessage errors={errors} className="error-msg" name="password" as="p" />
+
+                    </FormControl>
+
+                    <FormControl display="flex" alignItems="center" mt="2rem">
+
+                        <Switch 
+                            id="email-alerts" 
+                            size="sm" 
+                            mt=".5rem" 
+                            mr="1rem" 
+                            colorScheme="pink"
+                            name="rememberUser"
+                            {...register("rememberUser")}
+                            /> 
+                        <FormLabel htmlFor="email-alerts" mb="0">
+                            Remember me?
+                        </FormLabel>   
+
+                    </FormControl> 
+
+                    <Button 
+                        isFullWidth 
+                        fontSize="20px"
+                        marginTop="2rem" 
+                        mb="1rem"
+                        color="white" 
+                        colorScheme="pink"
+                        type="submit"
+                        leftIcon={<BsBoxArrowInRight />}>Sign In</Button>
+                    <Link >Need an account?</Link>                    
+                </form>
+            </Box>
+        </StyledLogin>
+    )
 }
 
-export default LoginForm;
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+      loginWatcher
+      // add other watcher sagas to this object to map them to props
+    }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(LoginForm);
+
+
+    
+ 

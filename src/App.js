@@ -1,19 +1,28 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './scenes/login/Login'
+import { Provider } from 'react-redux';
+import {store, persistor } from './store'
 import Home from './scenes/home/Home'
 import Search from './scenes/search/Search'
+import Login from './scenes/Login'
+import { PersistGate } from 'redux-persist/integration/react'
+
+
 
 function App() {
   return (
     <React.Fragment>
-      <Router>
-        <Switch>
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/home' component={Home} />
-          <Route exact path='/search' component={Search} />
-        </Switch>
-      </Router>
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Router>
+            <Switch>
+              <Route exact path='/home' component={Home} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/catalog/search' component={Search} />
+            </Switch>
+          </Router>
+        </PersistGate>
+      </Provider>
     </React.Fragment>
   );
 }

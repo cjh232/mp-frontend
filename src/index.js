@@ -3,10 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ChakraProvider } from "@chakra-ui/react"
+
+import "@fontsource/raleway/400.css"
+import "@fontsource/open-sans/700.css"
+import "@fontsource/archivo/400.css"
+import "@fontsource/roboto/400.css"
+import "@fontsource/lato/400.css"
+import "@fontsource/league-spartan/400.css"
+import "@fontsource/overpass/400.css"
+import "@fontsource/paytone-one/400.css"
+
+import theme from "./theme"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ChakraProvider theme={theme}>
+      <App />
+    </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
