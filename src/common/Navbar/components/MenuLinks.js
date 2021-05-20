@@ -51,13 +51,13 @@ function MenuLinks(props) {
                     <Tooltip label="Sign Up" aria-label="Sign Up">
                         <Link 
                             _hover={{ color: "pink.400" }} 
-                            color="#a0aec0"><Icon as={HiUserAdd} w={6} h={6}/></Link>
+                            color="gray.500"><Icon as={HiUserAdd} w={6} h={6}/></Link>
                     </Tooltip>
 
                     <Tooltip label="Log In" aria-label="Log In">
                         <Link 
                             _hover={{ color: "pink.400" }} 
-                            color="#a0aec0"
+                            color="gray.500"
                             href="/login"
                             ><Icon as={HiOutlineLogin} w={5} h={5}/></Link>
                     </Tooltip>
@@ -71,15 +71,19 @@ function MenuLinks(props) {
             <HStack spacing="1.2rem" h="20px">
 
             <Tooltip label="Home" aria-label="Home">
-                <Link _hover={{ color: "pink.400" }} color="#a0aec0"><Icon as={HiOutlineHome} w={5} h={6}/></Link>
+                <Link 
+                    _hover={{ color: "pink.400" }} 
+                    color="gray.500"
+                    href="/home"
+                    ><Icon as={HiOutlineHome} w={5} h={6}/></Link>
             </Tooltip>
 
             <Tooltip label="Products" aria-label="Products">
-                <Link _hover={{ color: "pink.400" }} color="#a0aec0"><Icon as={HiOutlineShoppingBag} w={5} h={6}/></Link>
+                <Link _hover={{ color: "pink.400" }} color="gray.500"><Icon as={HiOutlineShoppingBag} w={5} h={6}/></Link>
             </Tooltip>
 
             <Tooltip label="News" aria-label="News">
-                <Link _hover={{ color: "pink.400" }} color="#a0aec0"><Icon as={HiOutlineNewspaper} w={5} h={6}/></Link>
+                <Link _hover={{ color: "pink.400" }} color="gray.500"><Icon as={HiOutlineNewspaper} w={5} h={6}/></Link>
             </Tooltip>
 
                 
@@ -109,7 +113,7 @@ const AccountMenu = (props) => {
                 w="27px"
                 h="27px" 
                 transition="all 0.2s"
-                color="#a0aec0"
+                color="gray.500"
                 _hover={{cursor: 'pointer'}}
                 ><HiMenu size="20px"/></MenuButton>
             <MenuList>

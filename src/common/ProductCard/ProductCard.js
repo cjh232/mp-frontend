@@ -1,48 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import 'holderjs';
+import { Box, VStack, Flex, Divider, GridItem, Image, Container, Text } from '@chakra-ui/react';
 
-const CardStyles = styled.div`
+function ProductCard({title, brand, img, category}) {
 
-    .card {
-        width: 15.5rem;
-        height: 20rem;
-        border-radius: 2px;
-    }
-
-    .card_col {
-        margin-top: 2rem;
-        cursor: pointer;
-    }
-
-    .title {
-        font-size: .9rem;
-    }
-
-    .card-body {
-        padding:11px;
-    }
-`;
-
-const ProductCard = (props) => {
 
     return (
-        <CardStyles>
-            <Col className="card_col">
-                <Card className="card" onClick={() => props.goToProductPage(props.id)}>
-                    <Card.Img variant="top" className="img" src="holder.js/100px250" />
-                    <Card.Body>
-                        <Card.Text>
-                            <p className="text-muted title">{props.title}</p>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </Col>
-        </CardStyles>
+        <GridItem w="282.12px" h="512px" _hover={{cursor: "pointer"}}>
+            <VStack>
+                <Image w="100%" h="430px" src="gibbresh.png" fallbackSrc="https://via.placeholder.com/280x429" />
+                <Container p={0} mt="2px">
+                    <Text color="gray.500" fontSize="14px" isTruncated>{title}</Text>
+                    <Text as="sup" fontSize="12px" color="gray.500" isTruncated>{brand}</Text>
+                </Container>
+            </VStack>
+        </GridItem>
     )
 }
 
-export default ProductCard
+export default ProductCard;

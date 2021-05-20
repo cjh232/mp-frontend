@@ -20,7 +20,10 @@ function* searchEffectSaga(action) {
         let { data } = yield call(searchApi, query);
 
         yield put(loadSearchResults({results: data, query}))
-        history.push('/search');
+
+        if(history) {
+            history.push('/catalog/search');
+        }
 
     } catch (e) {
         console.log('error', e.response);

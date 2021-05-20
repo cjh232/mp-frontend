@@ -1,79 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl';
+import { Box, Grid, Center, Flex, Divider } from '@chakra-ui/react'
+
+// Components
 import Navbar from '../../common/Navbar'
-import axios from 'axios';
-import queryString from 'query-string'
-import { useLocation } from 'react-router-dom'
+import  QueryStats  from './components/QueryStats'
 import ProductCard from '../../common/ProductCard/ProductCard';
+import Filter from '../../common/Filter';
 
-
-
-const PageStyles = styled.div`
-
-    .page-container {
-
-    }
-
-    .outer-row {
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
-    .query-title {
-        border-bottom: 1px solid #dee2e6;
-        padding-bottom: 1px;
-    }
-
-    .query-text {
-        font-size: 1.5rem;
-    }
-`
-
+// Redux
+import { searchWatcher } from '../../actionCreators/searchCreators';
+import { bindActionCreators } from 'redux';
+import { useSelector, connect } from 'react-redux';
 
 const Search = (props) => {
 
-    const searchQuery = props.location.state.query;
-    const searchResults = props.location.state.results
+    const searchStats = useSelector(state => state.SearchReducer)
+
+    const searchResults = searchStats.results;
     const history = useHistory();
 
-    console.log(searchResults)
 
-    const [results, setResults] = useState(searchResults);
-    const [query, setQuery] = useState(searchQuery);
+    // If page is reloaded, run the search again.
+    useEffect(() => {
+        const reloadSearch = () => {
+            props.searchWatcher({
+                query: searchStats.query,
+                history: null
+            })
+    
+        }
+        reloadSearch()
 
-    const goToProductPage = (id) => {
-        history.push(`products/${id}`);
-    }
+    }, [])
 
     return (
-        <div>
-        <PageStyles>
+        <Box>
             <Navbar />
-            <Container className="page-container">
-                <Row className="outer-row query-title">
-                    <Col style={{'paddingTop': '1rem'}}>
-                        <h2 className="display-5 query-text">You searched for "{searchQuery}"</h2>
-                        <p className="text-muted">
-                            Search results: <br/> {searchResults.length} item{searchResults.length > 1 ||  searchResults.length === 0 ? 's' : ''} found
-                        </p>
-                    </Col>
-                </Row>
-                <Row className="outer-row align-items-center" md={4}>
-                    {searchResults.map((product) => {
-                        return (<ProductCard title={product.title} id={product.id} goToProductPage={goToProductPage} />)
-                    })} 
-                </Row>
-            </Container>
-        </PageStyles>
-        </div>
+            <Center mt="calc(70px + .8rem)" className="page-content" w="100%" h="100%">
+                <Flex direction="column" w="1440px" justifyContent="center">
+                    <QueryStats query={searchStats.query} resultLength={searchStats.results.length} />
+                    <Divider orientation="horizontal" />
+
+                    <Flex direction="row" mt="2rem">
+                        <Box  w="250px" h="500px" mr="1rem">
+                            <Filter type="search" />
+                        </Box>
+                    
+                        <Grid 
+                        w="calc(1440px - 250px)"
+                        templateColumns="repeat(4, 1fr)"
+                        gap={4}
+                        >
+                            {searchResults.map((result) => {
+                                return (<ProductCard 
+                                            title={result.title} 
+                                            brand={result.brand} 
+                                            category={result.category_name}/>)
+                            })}
+                            
+                        </Grid>
+                    
+                    
+                    </Flex>
+
+                    
+                </Flex>
+            </Center>
+        </Box>
     )
 }
 
 
-export default Search;
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        searchWatcher
+      // add other watcher sagas to this object to map them to props
+    }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(Search);

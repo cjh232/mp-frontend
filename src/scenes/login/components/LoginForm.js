@@ -156,7 +156,7 @@ function LoginForm(props) {
                                 isInvalid={errors.password}
                                 {...register("password")}
                             />
-                            <InputRightElement width="4.5rem">
+                            <InputRightElement width="4.5rem" _focus={{boxShadow: "none"}}>
                             <PasswordShowButton showPassword={showPassword} toggle={setShowPassword.toggle}/>
                             </InputRightElement>
                             <ErrorMessage errors={errors} className="error-msg" name="password" as="p" />
