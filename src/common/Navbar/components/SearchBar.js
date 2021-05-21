@@ -21,6 +21,10 @@ const SearchStyles = styled.div`
 
 `
 
+// TODO: Edit search so that it passes the params in a query
+// argument to the Search component and then makes the api request.
+// If we are already on the search page, just make the api request in place.
+
 function SearchBar (props) {
 
     const [query, setQuery] = useState('');

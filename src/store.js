@@ -21,7 +21,8 @@ const persistConfig = {
   key: 'root',
   storage,
   blacklist: [
-    'LoginError'
+    'LoginError', 
+    'ProductReducers'
   ]
 }
 

@@ -5,7 +5,9 @@ import {store, persistor } from './store'
 import Home from './scenes/home/Home'
 import Search from './scenes/search/Search'
 import Login from './scenes/Login'
+import ProductPage from './scenes/ProductPage'
 import { PersistGate } from 'redux-persist/integration/react'
+import './App.css'
 
 
 
@@ -19,6 +21,7 @@ function App() {
               <Route exact path='/home' component={Home} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/catalog/search' component={Search} />
+              <Route path="/catalog/product/:id" component={ProductPage} />
             </Switch>
           </Router>
         </PersistGate>

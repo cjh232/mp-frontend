@@ -6,6 +6,7 @@ import {
 } from './authSaga';
 
 import { searchWatcherSaga } from './searchSaga';
+import { productDetailsWatcherSaga } from './productSagas'
 
 
 
@@ -15,6 +16,7 @@ export default function* rootSaga() {
     loginWatcherSaga(),
     logoutWatcherSaga(),
     searchWatcherSaga(),
+    productDetailsWatcherSaga(),
     // add other watchers to the array
   ]);
 }

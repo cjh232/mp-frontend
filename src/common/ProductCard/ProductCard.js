@@ -1,11 +1,16 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Box, VStack, Flex, Divider, GridItem, Image, Container, Text } from '@chakra-ui/react';
 
-function ProductCard({title, brand, img, category}) {
-
+function ProductCard({title, brand, img, category, id, productSelected}) {
 
     return (
-        <GridItem w="282.12px" h="512px" _hover={{cursor: "pointer"}}>
+        <GridItem 
+            w="282.12px" 
+            h="512px" 
+            _hover={{cursor: "pointer"}}
+            onClick={() => productSelected(id)}
+            >
             <VStack>
                 <Image w="100%" h="430px" src="gibbresh.png" fallbackSrc="https://via.placeholder.com/280x429" />
                 <Container p={0} mt="2px">

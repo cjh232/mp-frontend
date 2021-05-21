@@ -20,6 +20,10 @@ const Search = (props) => {
     const searchResults = searchStats.results;
     const history = useHistory();
 
+    const productSelected = (id) => {
+        history.push(`/catalog/product/${id}/`)
+    }
+
 
     // If page is reloaded, run the search again.
     useEffect(() => {
@@ -37,7 +41,7 @@ const Search = (props) => {
     return (
         <Box>
             <Navbar />
-            <Center mt="calc(70px + .8rem)" className="page-content" w="100%" h="100%">
+            <Center className="page-content" w="100%">
                 <Flex direction="column" w="1440px" justifyContent="center">
                     <QueryStats query={searchStats.query} resultLength={searchStats.results.length} />
                     <Divider orientation="horizontal" />
@@ -56,6 +60,8 @@ const Search = (props) => {
                                 return (<ProductCard 
                                             title={result.title} 
                                             brand={result.brand} 
+                                            productSelected={productSelected}
+                                            id={result.id}
                                             category={result.category_name}/>)
                             })}
                             
