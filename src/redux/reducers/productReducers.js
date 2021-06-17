@@ -55,12 +55,7 @@ const ShopDetails = (state = initialStoreDetails, action) => {
                 ...state,
                 productList: action.payload
             }
-        case 'SAVE_CATEGORY_LIST':
-            return {
-                ...state,
-                categoryList: action.payload
-            }
-        case 'SAVE_CURRENT_CATEGORY':
+        case 'SAVE_CATEGORY':
             return {
                 ...state,
                 category: action.payload

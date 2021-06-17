@@ -22,8 +22,8 @@ export function saveProductDetails(productDetails) {
     return {type: 'SAVE_PRODUCT_DETAILS', payload: productDetails}
 }
 
-export function saveCategoryList(list) {
-    return {type: 'SAVE_CURRENT_CATEGORY', payload: list}
+export function saveCategory(list) {
+    return {type: 'SAVE_CATEGORY', payload: list}
 }
 
 export function saveProductList(productList) {

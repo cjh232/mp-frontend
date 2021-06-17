@@ -4,7 +4,7 @@ import {
     saveProductDetails, 
     setProductLoaded, 
     saveProductList, 
-    saveCategoryList 
+    saveCategory 
 } from '../actionCreators/productCreators'
 
 /** function that returns an axios call */
@@ -86,7 +86,7 @@ function* shopDetailsEffectSaga(action) {
 
         // Save all the information in reducer
         yield put(saveProductList(products))
-        yield put(saveCategoryList(categories))
+        yield put(saveCategory(categories))
 
     } catch (error) {
         console.log(error)

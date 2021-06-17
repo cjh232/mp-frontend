@@ -13,10 +13,12 @@ import {
 
 const Meta = ({numItems, category, parent}) => {
 
+    const returnRef = (parent === undefined) ? 'all' : parent.toLowerCase()
+
     return (
         <Flex w="100%" justify="space-between">
             <Text>
-                <Link href={`/shop/${parent}`}>{parent}</Link> 
+                <Link href={`/shop/${returnRef}`}>{parent}</Link> 
                 {parent !== undefined && ' / '}
                 {category}
             </Text>
