@@ -6,7 +6,6 @@ import HomePage from './scenes/HomePage'
 import SearchPage from './scenes/SearchPage';
 import LoginPage from './scenes/LoginPage'
 import ProductPage from './scenes/ProductPage'
-import Category from './scenes/Category';
 import Shop from './scenes/Shop';
 import { PersistGate } from 'redux-persist/integration/react'
 import './App.css'

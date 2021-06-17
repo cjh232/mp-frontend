@@ -14,20 +14,18 @@ import Filter from '../../common/Filter';
 import FilterHeadingCards from './components/FilterHeadingCards';
 
 // Redux
-import { shopLoadWatcher } from '../../redux/actionCreators/productCreators';
+import { shopDetailsWatcher } from '../../redux/actionCreators/productCreators';
 import { bindActionCreators } from 'redux';
 import { useSelector, connect } from 'react-redux';
 
 
 const Shop = (props) => {
 
-    const history = useHistory();
     let { category } = useParams();
 
     useEffect(() => {
-        props.shopLoadWatcher(category)
-        // props.getCategoryListWatcher(category)
-    }, [])
+        props.shopDetailsWatcher(category)
+    }, [props, category])
 
     return (
         <Box>
@@ -57,7 +55,7 @@ const Shop = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        shopLoadWatcher,
+        shopDetailsWatcher,
       // add other watcher sagas to this object to map them to props
     }, dispatch);
 }

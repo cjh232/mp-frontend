@@ -1,29 +1,31 @@
-// Worker triggering actionCreators
+// API Fetches
 
 export function productFetchWatcher(productId) {
-    return {type: 'PRODUCT_REQUESTED', payload: productId}
+    return {type: 'FETCH_PRODUCT_DETAILS', payload: productId}
 }
 
-export function shopLoadWatcher(category) {
-    return {type: 'SHOP_INIT', payload: category}
+export function shopDetailsWatcher(category) {
+    return {type: 'FETCH_SHOP_DETAILS', payload: category}
 }
 
-export function getCategoryListWatcher(category) {
-    return {type: 'GET_CATEGORIES', payload: category}
-}
 
-export function loadCategoryList(list) {
-    return {type: 'LOAD_CATEGORIES', payload: list}
-}
-  
-export function loadProductDetails(productDetails) {
-    return {type: 'PRODUCT_DETAILS', payload: productDetails}
-}
+// Boolean Flags
 
 export function setProductLoaded(isLoaded) {
     return {type: 'LOADING_DETAILS', payload: isLoaded}
 }
 
-export function loadProductList(productList) {
-    return {type: 'LOAD_PRODUCTS', payload: productList}
+
+// Reducers
+
+export function saveProductDetails(productDetails) {
+    return {type: 'SAVE_PRODUCT_DETAILS', payload: productDetails}
+}
+
+export function saveCategoryList(list) {
+    return {type: 'SAVE_CURRENT_CATEGORY', payload: list}
+}
+
+export function saveProductList(productList) {
+    return {type: 'SAVE_PRODUCT_LIST', payload: productList}
 }

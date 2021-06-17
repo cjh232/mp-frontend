@@ -7,14 +7,19 @@ import {
     Flex, 
     Divider,
     Heading,
+    Link,
     Text } from '@chakra-ui/react'
 
 
-const Meta = ({numItems, category}) => {
+const Meta = ({numItems, category, parent}) => {
 
     return (
         <Flex w="100%" justify="space-between">
-            <Text fontSize="20px"> Women's {category} </Text>
+            <Text>
+                <Link href={`/shop/${parent}`}>{parent}</Link> 
+                {parent !== undefined && ' / '}
+                {category}
+            </Text>
             <Text fontSize="14px"> {numItems} items </Text>
         </Flex>
     )

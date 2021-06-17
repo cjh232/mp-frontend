@@ -27,7 +27,7 @@ function* searchEffectSaga(action) {
         }
 
     } catch (e) {
-        console.log('error', e.response);
+        console.log('error', e.response.status);
 
     }
 }

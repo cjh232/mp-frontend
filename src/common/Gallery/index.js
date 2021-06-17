@@ -16,7 +16,7 @@ import ProductCard from '../ProductCard/ProductCard'
 import Meta from './components/Meta'
 
 // Redux
-import { shopLoadWatcher, getCategoryListWatcher } from '../../redux/actionCreators/productCreators';
+import { shopDetailsWatcher } from '../../redux/actionCreators/productCreators';
 import { bindActionCreators } from 'redux';
 import { useSelector, connect } from 'react-redux';
 
@@ -29,7 +29,8 @@ const capitalize = (str) => {
 
 const Gallery = (props) => {
 
-    const productsList = useSelector(state => state.ProductReducers.ProductList)
+    const productsList = useSelector(state => state.ProductReducers.ShopDetails.productList)
+    const parent = useSelector(state => state.ProductReducers.ShopDetails.category.parent)
     const history = useHistory()
     let { category } = useParams();
 
@@ -39,7 +40,7 @@ const Gallery = (props) => {
 
     return (
         <VStack spacing={3}>
-            <Meta numItems={productsList.length} category={capitalize(category)} />
+            <Meta numItems={productsList.length} category={capitalize(category)} parent={parent} />
             <Grid 
             w="calc(1440px - 250px)"
             templateColumns="repeat(4, 1fr)"
@@ -64,8 +65,7 @@ const Gallery = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        shopLoadWatcher,
-        getCategoryListWatcher
+        shopDetailsWatcher,
       // add other watcher sagas to this object to map them to props
     }, dispatch);
 }

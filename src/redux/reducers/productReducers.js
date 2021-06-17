@@ -14,7 +14,7 @@ const initialState = {
 
 const ProductDetails = (state = initialState, action) => {
     switch(action.type) {
-        case 'PRODUCT_DETAILS':
+        case 'SAVE_PRODUCT_DETAILS':
             // error.detail = action.payload.detail;
             return {
                 id: action.payload.id,
@@ -36,45 +36,45 @@ const ProductDetails = (state = initialState, action) => {
     }
 }
 
-const ProductList = (state = [], action) => {
-    switch(action.type) {
-        case'LOAD_PRODUCTS':
-            return action.payload
-        default:
-            return state;
+const initialStoreDetails = {
+    productList: [],
+    category: {name: 'All', children: []},
+    sizeList: [],
+    brandList: [],
+    filters: {
+        sizes: [],
+        brands: [],
+        colors: []
     }
 }
 
-const initialOptions = {
-    category: '',
-    sizes: [],
-    colors: []
-}
-
-
-const FilterOptions = (state = initialOptions, action) => {
+const ShopDetails = (state = initialStoreDetails, action) => {
     switch(action.type) {
-        case 'LOAD_FILTER_OPTIONS':
+        case 'SAVE_PRODUCT_LIST':
             return {
-                category: action.payload.category,
-                sizes: action.payload.sizes,
-                colors: action.payload.colors
+                ...state,
+                productList: action.payload
+            }
+        case 'SAVE_CATEGORY_LIST':
+            return {
+                ...state,
+                categoryList: action.payload
+            }
+        case 'SAVE_CURRENT_CATEGORY':
+            return {
+                ...state,
+                category: action.payload
             }
         default:
             return state;
     }
 }
 
-const CategoryList = (state = [], action) => {
-    switch(action.type) {
-        case 'LOAD_CATEGORIES':
-            return action.payload
-        default:
-            return state;
-    }
-}
 
 
-const ProductReducers = combineReducers({ProductDetails, ProductList, FilterOptions, CategoryList})
+const ProductReducers = combineReducers({
+    ProductDetails, 
+    ShopDetails
+})
 
 export {ProductReducers};

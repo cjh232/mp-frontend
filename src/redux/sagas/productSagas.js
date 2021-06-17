@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { loadProductDetails, setProductLoaded, loadProductList, loadCategoryList } from '../actionCreators/productCreators'
+import { 
+    saveProductDetails, 
+    setProductLoaded, 
+    saveProductList, 
+    saveCategoryList 
+} from '../actionCreators/productCreators'
 
 /** function that returns an axios call */
 function productDetailsApi (productId) {
@@ -26,8 +31,8 @@ function productListApi (params) {
     });
 }
 
-function categoryListApi (category) {
-    const url = `http://localhost:8000/products/categories/?category=${category}`
+function categoryApi (category) {
+    const url = `http://localhost:8000/products/categories/${category}/`
 
     return axios.request({
         method: 'get',
@@ -59,7 +64,7 @@ function* productDetailsEffectSaga(action) {
             details: data.details
         }
 
-        yield put(loadProductDetails(productDetails))
+        yield put(saveProductDetails(productDetails))
         yield put(setProductLoaded({isLoaded: true}))
 
     } catch (error) {
@@ -67,7 +72,7 @@ function* productDetailsEffectSaga(action) {
     }
 }
 
-function* shopLoadEffectSaga(action) {
+function* shopDetailsEffectSaga(action) {
     try {
         const category = action.payload;
 
@@ -76,12 +81,12 @@ function* shopLoadEffectSaga(action) {
         const products = productsResponse.data
 
         // Get all the subcategories listed under the given category
-        let categoryResponse = yield call(categoryListApi, category)
+        let categoryResponse = yield call(categoryApi, category)
         const categories = categoryResponse.data
 
         // Save all the information in reducer
-        yield put(loadProductList(products))
-        yield put(loadCategoryList(categories))
+        yield put(saveProductList(products))
+        yield put(saveCategoryList(categories))
 
     } catch (error) {
         console.log(error)
@@ -90,9 +95,9 @@ function* shopLoadEffectSaga(action) {
 
 
 export function* productDetailsWatcherSaga() {
-    yield takeLatest('PRODUCT_REQUESTED', productDetailsEffectSaga);
+    yield takeLatest('FETCH_PRODUCT_DETAILS', productDetailsEffectSaga);
 }
 
-export function* shopLoadWatcherSaga() {
-    yield takeLatest('SHOP_INIT', shopLoadEffectSaga)
+export function* shopDetailsWatcherSaga() {
+    yield takeLatest('FETCH_SHOP_DETAILS', shopDetailsEffectSaga)
 }

@@ -13,11 +13,14 @@ import { useSelector } from 'react-redux';
 
 function CategoryFilter(props) {
 
-    const categoryList = useSelector(state => state.ProductReducers.CategoryList)
+    const categoryList = useSelector(state => state.ProductReducers.ShopDetails.category.children)
+    const parent = useSelector(state => state.ProductReducers.ShopDetails.category.parent)
 
 
     // May change in the future
-    const returnCategory = (categoryList.length > 0) ? 'All' : '...'
+    const returnTitle = (parent == null) ? 'All' : `All ${parent}`
+    const returnRef = (parent == null) ? 'all': parent.toLowerCase()
+    
 
     return (
         <AccordionItem>
@@ -33,7 +36,7 @@ function CategoryFilter(props) {
             <AccordionPanel pb={4}>
                 <VStack spacing={2}>
                     <Box flex="1" textAlign="left" w="100%">
-                        <Link fontSize="14px" href={`/shop/all`}>{returnCategory}</Link>
+                        <Link fontSize="14px" href={`/shop/${returnRef}`}>{returnTitle}</Link>
                     </Box>
                     
                     {categoryList.map((category) => {
