@@ -48,10 +48,15 @@ function* loginEffectSaga(action) {
 function* logoutEffectSaga(action) {
     console.log('request logout')
     const {history} = action.payload;
-
-    yield call(logoutApi);
-    
     yield put(clearAuthState({access_token: 'access_token'}))
+
+    try {
+        yield call(logoutApi);
+    } catch {
+        console.log('Error when accessing logout route.')
+    }
+    
+
     history.push('/login')
 
 }

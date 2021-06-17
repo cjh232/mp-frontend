@@ -22,7 +22,7 @@ import { ErrorMessage } from "@hookform/error-message";
 /** Redux */
 import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loginWatcher } from '../../../actionCreators/authCreators';
+import { loginWatcher } from '../../../redux/actionCreators/authCreators';
 
 import { BsBoxArrowInRight } from 'react-icons/bs'
 import styled from 'styled-components';

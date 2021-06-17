@@ -1,49 +1,30 @@
 import React from 'react';
 import {
-    Radio,
-    RadioGroup, 
     AccordionItem,
     AccordionPanel,
     AccordionButton,
-    AccordionIcon,
     Box,
     VStack, 
-    useRadioGroup,
+    Link
 } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons'
-import Option from './Option';
+import { useSelector } from 'react-redux';
 
 
 function CategoryFilter(props) {
 
-    const [activeOptions, setActiveOptions] = React.useState(0)
-
-    const options = {
-        "Tops": false,
-        "Bottoms": false,
-        "Shoes": false,
-        "Sneakers": false,
-        "Hoodies + Sweatshirts": false
-
-    }
+    const categoryList = useSelector(state => state.ProductReducers.CategoryList)
 
 
-    const optionClicked = (value, status) => {
-        options[value] = status;
-        
-        if(!status) {
-            setActiveOptions(activeOptions - 1)
-        } else {
-            setActiveOptions(activeOptions + 1)
-        }
-    }                
+    // May change in the future
+    const returnCategory = (categoryList.length > 0) ? 'All' : '...'
 
     return (
         <AccordionItem>
             <h2>
                 <AccordionButton _focus={{boxShadow: "none"}} h="50px">
                     <Box flex="1" textAlign="left" alignContent="center">
-                        Category {activeOptions > 0 ? `(${activeOptions})` : ''}
+                        Categories
                     </Box>
                     <SmallAddIcon />
                 </AccordionButton>
@@ -51,8 +32,16 @@ function CategoryFilter(props) {
 
             <AccordionPanel pb={4}>
                 <VStack spacing={2}>
-                    {Object.entries(options).map((option) => {
-                        return (<Option value={option[0]} isActive={option[1]} onClick={optionClicked} />)
+                    <Box flex="1" textAlign="left" w="100%">
+                        <Link fontSize="14px" href={`/shop/all`}>{returnCategory}</Link>
+                    </Box>
+                    
+                    {categoryList.map((category) => {
+                        return (
+                            <Box flex="1" textAlign="left" w="100%">
+                                <Link fontSize="14px" href={`/shop/${category.name.toLowerCase()}`}>{category.name}</Link>
+                            </Box>
+                        )
                     })}    
                 </VStack>
             </AccordionPanel>

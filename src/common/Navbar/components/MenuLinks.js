@@ -29,7 +29,7 @@ import {
      } from 'react-icons/hi';
 import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logoutWatcher } from '../../../actionCreators/authCreators';
+import { logoutWatcher } from '../../../redux/actionCreators/authCreators';
 
 
 function MenuLinks(props) {
@@ -75,15 +75,25 @@ function MenuLinks(props) {
                     _hover={{ color: "pink.400" }} 
                     color="gray.500"
                     href="/home"
+                    _focus={{boxShadow: "none"}}
                     ><Icon as={HiOutlineHome} w={5} h={6}/></Link>
             </Tooltip>
 
             <Tooltip label="Products" aria-label="Products">
-                <Link _hover={{ color: "pink.400" }} color="gray.500"><Icon as={HiOutlineShoppingBag} w={5} h={6}/></Link>
+                <Link
+                 _hover={{ color: "pink.400" }} 
+                 color="gray.500"
+                 href="/shop/all"
+                 _focus={{boxShadow: "none"}}
+                 ><Icon as={HiOutlineShoppingBag} w={5} h={6}/></Link>
             </Tooltip>
 
             <Tooltip label="News" aria-label="News">
-                <Link _hover={{ color: "pink.400" }} color="gray.500"><Icon as={HiOutlineNewspaper} w={5} h={6}/></Link>
+                <Link 
+                _hover={{ color: "pink.400" }} 
+                color="gray.500"
+                _focus={{boxShadow: "none"}}
+                ><Icon as={HiOutlineNewspaper} w={5} h={6}/></Link>
             </Tooltip>
 
                 

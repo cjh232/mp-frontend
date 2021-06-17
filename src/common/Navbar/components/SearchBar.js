@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { searchWatcher } from '../../../actionCreators/searchCreators';
+import { searchWatcher } from '../../../redux/actionCreators/searchCreators';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { InputGroup, InputLeftElement, Input, Box } from '@chakra-ui/react';
@@ -12,7 +12,7 @@ const SearchStyles = styled.div`
     input {
         border-radius: 6px;
         height: 44px;
-        border: 1px solid #E2E8F0;
+        border: 1px solid #dddddd;
     }
 
     input, select, textarea {
@@ -20,10 +20,6 @@ const SearchStyles = styled.div`
     }
 
 `
-
-// TODO: Edit search so that it passes the params in a query
-// argument to the Search component and then makes the api request.
-// If we are already on the search page, just make the api request in place.
 
 function SearchBar (props) {
 
@@ -58,8 +54,8 @@ function SearchBar (props) {
                             variant="outline" 
                             w="700px" 
                             placeholder="Search for something nice..."
-                            shadow="sm"
                             focusBorderColor="pink.300"
+                            shadow="sm"
                             color="gray.500"
                             fontSize="14px"
                             onChange={(event) => onInputChange(event)}/>

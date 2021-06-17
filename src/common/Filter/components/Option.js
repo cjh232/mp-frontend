@@ -3,6 +3,7 @@ import {
     Box, 
     Center,
     Text,
+    Flex,
     useBoolean
 } from '@chakra-ui/react';
 import { CheckIcon } from '@chakra-ui/icons';
@@ -28,19 +29,19 @@ function Option({value, optionSelected, isActive, onClick}) {
 
     return (
         <Box
-            border="1px"
+            border="0px"
             borderColor="gray.300"
-            color={active ? "gray.600" : "gray.500"}
-            bg={active ? "gray.300" : ""}
+            color={active ? "gray.600" : "gray.400"}
+            bg=""
             w="150px"
             h="40px"
             align="center"
-            _hover={{color: "gray.600", borderColor: "gray.600"}}
+            _hover={{color: "gray.900", borderColor: "gray.600"}}
             onClick={onOptionClicked}
         >
-            <Center w="100%" h="100%">
+            <Flex w="100%" h="100%" direction="column">
                 <Text fontSize="12px" isTruncated>{value}</Text>
-            </Center>
+            </Flex>
         </Box>
     )
 }

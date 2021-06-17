@@ -6,7 +6,7 @@ import Background from '../../assets/colorful.png';
 import Footer from './components/Footer';
 
 
-const Login = () => {
+const LoginPage = () => {
     return (
         <Box className="background" w="100%" h="100%" p={0} backgroundImage={`url(${Background})`}>
             <Center h="100%" w="100%" color="black">
@@ -45,4 +45,4 @@ const Login = () => {
 }
 
 
-export default Login;
+export default LoginPage;

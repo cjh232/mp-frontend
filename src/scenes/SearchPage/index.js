@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Grid, Center, Flex, Divider } from '@chakra-ui/react'
 
+import queryString from 'querystring';
+
 // Components
 import Navbar from '../../common/Navbar'
 import  QueryStats  from './components/QueryStats'
@@ -9,11 +11,11 @@ import ProductCard from '../../common/ProductCard/ProductCard';
 import Filter from '../../common/Filter';
 
 // Redux
-import { searchWatcher } from '../../actionCreators/searchCreators';
+import { searchWatcher } from '../../redux/actionCreators/searchCreators';
 import { bindActionCreators } from 'redux';
 import { useSelector, connect } from 'react-redux';
 
-const Search = (props) => {
+const SearchPage = (props) => {
 
     const searchStats = useSelector(state => state.SearchReducer)
 
@@ -21,22 +23,8 @@ const Search = (props) => {
     const history = useHistory();
 
     const productSelected = (id) => {
-        history.push(`/catalog/product/${id}/`)
+        history.push(`/shop/${id}/`)
     }
-
-
-    // If page is reloaded, run the search again.
-    useEffect(() => {
-        const reloadSearch = () => {
-            props.searchWatcher({
-                query: searchStats.query,
-                history: null
-            })
-    
-        }
-        reloadSearch()
-
-    }, [])
 
     return (
         <Box>
@@ -48,7 +36,7 @@ const Search = (props) => {
 
                     <Flex direction="row" mt="2rem">
                         <Box  w="250px" h="500px" mr="1rem">
-                            <Filter type="search" />
+                            <Filter brand size type="search" />
                         </Box>
                     
                         <Grid 
@@ -85,4 +73,4 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(Search);
+export default connect(null, mapDispatchToProps)(SearchPage);

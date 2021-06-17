@@ -14,16 +14,14 @@ import SizeFilter from './components/SizeFilter';
 import { SmallAddIcon } from '@chakra-ui/icons'
 
 
-function Filter(props) {
-
-    const type = props.type;
+function Filter({category, size, brand}) {
 
     return (
         <Box>
-            <Accordion allowToggle allowMultiple>
-                <SizeFilter />
-                <BrandFilter />
-                <CategoryFilter />
+            <Accordion allowToggle allowMultiple defaultIndex={0}>
+                {category && <CategoryFilter />}
+                {size && <SizeFilter />}
+                {brand && <BrandFilter />}
             </Accordion>
         </Box>
     )

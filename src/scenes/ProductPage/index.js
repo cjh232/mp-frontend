@@ -7,7 +7,7 @@ import { Box, Flex, Center, Divider, HStack, Image  } from '@chakra-ui/react';
 import ProductInfo from './components/ProductInfo';
 
 // Redux
-import { productFetchWatcher } from '../../actionCreators/productCreators';
+import { productFetchWatcher } from '../../redux/actionCreators/productCreators';
 import { bindActionCreators } from 'redux';
 import { useSelector, connect } from 'react-redux';
 
